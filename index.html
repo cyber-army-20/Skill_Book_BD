@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skill &amp; Book BD — Courses &amp; Books at Real Prices</title>
+<meta name="description" content="Handpicked courses and books for Bangladeshi learners, with real discount codes, at Skill & Book BD.">
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0B1220',
+          navy: '#132239',
+          navy2: '#1B3358',
+          gold: '#E8A33D',
+          goldSoft: '#F3C878',
+          paper: '#FBF7EE',
+          teal: '#2E7D6B',
+          rose: '#C1503F',
+        },
+        fontFamily: {
+          display: ['"Fraunces"', 'serif'],
+          body: ['"Inter"', 'sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  h1, h2, h3, .font-display { font-family: 'Fraunces', serif; }
+
+  .card-underline {
+    background-image: linear-gradient(#E8A33D, #E8A33D);
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    transition: background-size 0.3s ease;
+  }
+  .card-underline:hover { background-size: 100% 2px; }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-thumb { background: #1B3358; border-radius: 8px; }
+
+  .fade-in { animation: fadeIn 0.35s ease both; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  [data-desc-panel] {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+  [data-desc-panel].open {
+    max-height: 400px;
+  }
+
+  .toast {
+    animation: toastIn 0.25s ease, toastOut 0.25s ease 1.75s forwards;
+  }
+  @keyframes toastIn { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+  @keyframes toastOut { to { opacity: 0; transform: translateY(8px);} }
+</style>
+</head>
+<body class="bg-paper text-ink font-body min-h-screen flex flex-col">
+
+<!-- Header -->
+<header class="bg-ink text-paper sticky top-0 z-40 shadow-lg shadow-black/20">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+    <div class="flex items-center justify-between gap-4 flex-wrap">
+      <a href="./" class="flex items-center gap-2.5 shrink-0" id="logoLink">
+        <img src="assets/logo.jpg" alt="Skill & Book BD" class="h-11 w-11 sm:h-12 sm:w-12 rounded-full object-cover ring-1 ring-gold/40"/>
+        <div class="leading-none">
+          <div class="font-display font-semibold text-lg sm:text-xl tracking-tight">Skill <span class="text-gold">&amp;</span> Book BD</div>
+          <div class="text-[10px] sm:text-xs text-goldSoft/80 tracking-widest uppercase">Learn more, pay less</div>
+        </div>
+      </a>
+
+      <div class="flex-1 min-w-[200px] max-w-xl order-3 sm:order-2 w-full sm:w-auto">
+        <div class="relative">
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search courses or books…"
+            class="w-full bg-navy border border-navy2 focus:border-gold outline-none rounded-full py-2.5 pl-11 pr-4 text-sm placeholder:text-paper/40 transition-colors"
+          />
+          <svg class="absolute left-4 top-1/2 -translate-y-1/2 opacity-50" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-6 text-sm order-2 sm:order-3">
+        <a href="#products" class="hover:text-gold transition-colors">Catalog</a>
+        <a href="#contact" class="hover:text-gold transition-colors">Contact</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- Main -->
+<main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-10" id="products">
+
+  <!-- Single product view -->
+  <section id="singleView" class="hidden fade-in"></section>
+
+  <!-- Grid view -->
+  <section id="gridView">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="font-display text-2xl font-semibold">Full Catalog</h2>
+      <span id="resultCount" class="text-sm text-ink/50"></span>
+    </div>
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    <div id="emptyState" class="hidden text-center py-20">
+      <p class="font-display text-xl text-ink/60">No matches found</p>
+      <p class="text-sm text-ink/40 mt-1">Try a different search term.</p>
+    </div>
+    <div id="loadingState" class="text-center py-20 text-ink/40 text-sm">Loading catalog…</div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer id="contact" class="bg-ink text-paper/80 mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid sm:grid-cols-3 gap-8 text-sm">
+    <div>
+      <div class="font-display text-lg text-paper font-semibold mb-2">Skill &amp; Book BD</div>
+      <p class="text-paper/60 leading-relaxed">An independent affiliate catalog helping learners across Bangladesh find real discounts on courses and books. We may earn a commission on purchases made through our links.</p>
+    </div>
+    <div>
+      <div class="text-paper font-semibold mb-2 uppercase tracking-wider text-xs">Contact</div>
+      <ul class="space-y-1.5 text-paper/60">
+        <li>Email: <a href="mailto:hello@skillbookbd.com" class="hover:text-gold">hello@skillbookbd.com</a></li>
+        <li>Phone: <a href="tel:+8801700000000" class="hover:text-gold">+880 1700-000000</a></li>
+        <li>Dhaka, Bangladesh</li>
+      </ul>
+    </div>
+    <div>
+      <div class="text-paper font-semibold mb-2 uppercase tracking-wider text-xs">Follow</div>
+      <ul class="space-y-1.5 text-paper/60">
+        <li><a href="#" class="hover:text-gold">Facebook Page</a></li>
+        <li><a href="#" class="hover:text-gold">YouTube Channel</a></li>
+        <li><a href="#" class="hover:text-gold">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-navy2 text-center text-xs text-paper/40 py-4">
+    © <span id="year"></span> Skill &amp; Book BD. All rights reserved.
+  </div>
+</footer>
+
+<!-- Toast -->
+<div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-paper text-sm px-4 py-2.5 rounded-full shadow-lg z-50"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
